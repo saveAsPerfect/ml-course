@@ -35,6 +35,7 @@ st.subheader("Titanic dataset, train sample", divider=True)
 train = pd.read_csv("train.csv")
 st.write(train)
 
+    
 def preprocess_data(data):
     columns_to_drop = ["Ticket", "PassengerId", "Name", "Cabin"]
     data.drop(columns_to_drop, axis=1, inplace=True)
@@ -83,3 +84,18 @@ st.write("""
 попробуйте его бесплатно задеплоить на Streamlit Community Cloud: 
 [документация](https://docs.streamlit.io/deploy/streamlit-community-cloud/get-started).
 """)
+
+# bouns
+if "score_history" not in st.session_state:
+    st.session_state["score_history"] = []
+
+st.session_state["score_history"].append(cross_val_score_mean)
+
+
+
+# linechart
+st.subheader("Cross_val_scores")
+st.line_chart(st.session_state["score_history"])
+# clear button
+if st.button("clear history"):
+    st.session_state["score_history"] = []
